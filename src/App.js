@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import NameTag from './components/NameTag'
+import Input from './components/Input'
+
+const makeGreen = BaseComponent => props => {
+  const addGreen = {
+    style: {
+      color: "green"
+    }
+  }
+
+  const newProps = {
+    ...props, ...addGreen
+  }
+
+  return <BaseComponent {...newProps} />
+}
+
+const removeInline = BaseComponent => props => {
+  const newProps = {...props}
+  delete newProps.style
+  return <BaseComponent {...newProps} />
+}
+
+const GreenNameTag = makeGreen(NameTag)
+const CleanNameTag = removeInline(NameTag)
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NameTag name="Peter" />
+      <CleanNameTag style={{color: 'red'}} name="John" />
+      <GreenNameTag name="Mike" />
+      <NameTag />
     </div>
   );
 }
