@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import NameTag from './components/NameTag'
 
-const initXY = {
-  x: null, y: null
+const initProfile = {
+  followers: null,
+  publicRepos: null
 }
 
 function App() {
-  const [time, setTime] = useState(Date)
-  const [xy, setXY] = useState(initXY)
+  const [profile, setProfile] = useState(initProfile)
   
   useEffect(() => {
-    let handle = setInterval(() => {
-      console.log('set')
-      setTime(Date)
-    }, 1000)
-    return () => {
-      clearInterval(handle)
-    }
-  })
+    getProfile()
+  }, [])
 
-  function handleMousemove(event) {
-    setXY({ x: event.clientX, y: event.clientY })
+  async function getProfile() {
+    const response = await fetch('https://api.github.com/users/gitmil')
+    const json = await response.json()
+
+    setProfile({
+      followers: json.followers,
+      publicRepos: json.public_repos
+    })
   }
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMousemove)
-    return () => {
-      window.removeEventListener('mousemove', handleMousemove)
-    }
-  })
 
   return (
     <div className="App">
-      <h2>useEffect</h2>
+      <h2>fetch data</h2>
 
-      <div>this time: {time}</div>
-
-      <div>this xy: {xy.x} : {xy.y}</div>
+      followers: {profile.followers} <br />
+      public_repos: {profile.publicRepos}
       
     </div>
   );
