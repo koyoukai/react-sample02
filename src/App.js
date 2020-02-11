@@ -14,7 +14,6 @@ function App() {
       <button onClick={() => setNum(num - 1)}>decrement</button>
     </div>
   )
-  
 }
 
 export default App;
